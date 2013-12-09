@@ -1,0 +1,16 @@
+# :/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/local/mysql/bin
+      PATH=/usr/local/bin
+PATH=$PATH:/usr/local/sbin
+PATH=$PATH:/usr/bin
+PATH=$PATH:/bin
+PATH=$PATH:/usr/sbin
+PATH=$PATH:/sbin
+PATH=$PATH:/opt/X11/bin
+PATH=$PATH:/usr/local/mysql/bin
+PATH=$PATH:/opt/local/sbin
+PATH=$PATH:/usr/local/go/bin
+PATH=$PATH:/usr/local/php5/bin
+PATH=$PATH:~/.composer/vendor/bin/
+
+export PATH
+

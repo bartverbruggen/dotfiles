@@ -3,7 +3,6 @@ function md() {
 	mkdir -p "$@" && cd "$@"
 }
 
-
 # find shorthand
 function f() {
     find . -name "$1"
@@ -14,14 +13,6 @@ cdf() {  # short for cdfinder
   cd "`osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)'`"
 }
 
-
-# lets toss an image onto my server and pbcopy that bitch.
-function scpp() {
-    scp "$1" aurgasm@aurgasm.us:~/paulirish.com/i;
-    echo "http://paulirish.com/i/$1" | pbcopy;
-    echo "Copied to clipboard: http://paulirish.com/i/$1"
-}
-
 # Start an HTTP server from a directory, optionally specifying the port
 function server() {
 	local port="${1:-8000}"
@@ -30,20 +21,6 @@ function server() {
 	# And serve everything as UTF-8 (although not technically correct, this doesn’t break anything for binary files)
 	python -c $'import SimpleHTTPServer;\nmap = SimpleHTTPServer.SimpleHTTPRequestHandler.extensions_map;\nmap[""] = "text/plain";\nfor key, value in map.items():\n\tmap[key] = value + ";charset=UTF-8";\nSimpleHTTPServer.test();' "$port"
 }
-
-# git log with per-commit cmd-clickable GitHub URLs (iTerm)
-function gf() {
-  local remote="$(git remote -v | awk '/^origin.*\(push\)$/ {print $2}')"
-  [[ "$remote" ]] || return
-  local user_repo="$(echo "$remote" | perl -pe 's/.*://;s/\.git$//')"
-  git log $* --name-status --color | awk "$(cat <<AWK
-    /^.*commit [0-9a-f]{40}/ {sha=substr(\$2,1,7)}
-    /^[MA]\t/ {printf "%s\thttps://github.com/$user_repo/blob/%s/%s\n", \$1, sha, \$2; next}
-    /.*/ {print \$0}
-AWK
-  )" | less -F
-}
-
 
 # Copy w/ progress
 cp_p () {
@@ -68,14 +45,11 @@ function json() {
 	fi
 }
 
-
 # take this repo and copy it to somewhere else minus the .git stuff.
 function gitexport(){
 	mkdir -p "$1"
 	git archive master | tar -x -C "$1"
 }
-
-
 
 # get gzipped size
 function gz() {
@@ -156,3 +130,21 @@ gifify() {
   fi
 }
 
+# ssh to our web001 server with given username
+web001() {
+  ssh "$1"@web001.server.statik.be -t "bash --login;";
+}
+
+# switch to the working directory
+pr() {
+  echo 'Changing working directory to:' $1;
+  cd $PROJECTS/$1/
+}
+
+# drush update on git pull
+drupal_update() {
+  drush @sites updb -y;
+  drush @sites cache-clear drush -y;
+  drush @sites features-revert-all -y;
+  drush @sites cc all -y;
+}

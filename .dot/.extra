@@ -10,7 +10,8 @@ PATH=$PATH:/usr/local/mysql/bin
 PATH=$PATH:/opt/local/sbin
 PATH=$PATH:/usr/local/go/bin
 PATH=$PATH:/usr/local/php5/bin
-PATH=$PATH:~/.composer/vendor/bin/
+PATH=$PATH:~/.dot/bin
+PATH=$PATH:~/.composer/vendor/bin
 
 export PATH
 
